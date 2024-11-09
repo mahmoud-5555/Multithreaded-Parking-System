@@ -1,3 +1,5 @@
+package src;
+
 public class Car implements Comparable<Car> {
     private String name;
     private int arrivedAt;
@@ -28,6 +30,6 @@ public class Car implements Comparable<Car> {
     }
 
     public void printCar() {
-        System.out.println("Car name: " + name + " arrived at: " + arrivedAt + " parking time: " + parkingTime);
+        System.out.println("src.Car name: " + name + " arrived at: " + arrivedAt + " parking time: " + parkingTime);
     }
 }

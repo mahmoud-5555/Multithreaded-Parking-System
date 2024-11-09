@@ -1,3 +1,5 @@
+package src;
+
 public class ParkingSlot {
     private int slotNumber;
     private Car car;
@@ -18,12 +20,12 @@ public class ParkingSlot {
 
     public void parkCar(Car car) {
         this.car = car;
-        System.out.println("Car " + car.getName() + " parked in slot " + slotNumber);
+        System.out.println("src.Car " + car.getName() + " parked in slot " + slotNumber);
     }
 
     public void removeCar() {
         if (this.car != null) {
-            System.out.println("Car " + this.car.getName() + " removed from slot " + slotNumber);
+            System.out.println("src.Car " + this.car.getName() + " removed from slot " + slotNumber);
             this.car = null;
         }
     }

@@ -1,4 +1,6 @@
+package src;
 
+import java.util.PriorityQueue;
 public class Gate extends Thread {
     private Parking parkingLot;
     private PriorityQueue<Car> queue;  // Priority queue of cars waiting
@@ -19,7 +21,7 @@ public class Gate extends Thread {
             if (!parkingLot.isFull()) {
                 parkingLot.parkCar(car);  // Park the car in an available slot
             } else {
-                System.out.println("Parking full, " + car.getName() + " can't park yet.");
+                System.out.println("src.Parking full, " + car.getName() + " can't park yet.");
             }
         }
     }
