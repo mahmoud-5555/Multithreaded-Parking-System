@@ -1,39 +1,42 @@
 package src;
 
-import src.Car;
-import src.Gate;
-import src.Parking;
+import java.util.PriorityQueue;
 
-// Add your package here
 public class App {
     public static void main(String[] args) {
-        // Create a parking lot with 3 spots
-        Parking parkingsLot = new Parking(3);
+        // Create a parking lot with 4 spots
+        Parking parkingLot = new Parking(4);
 
-        // Create gates (threads)
-        Gate gate1 = new Gate(parkingsLot);
-        Gate gate2 = new Gate(parkingsLot);
-        Gate gate3 = new Gate(parkingsLot);
+        // Shared priority queue for all gates
+        PriorityQueue<Car> sharedQueue = new PriorityQueue<>();
 
-        // Add cars to the queue at each gate
-        gate1.addCarToQueue(new Car("Car1", 1, 5));
-        gate1.addCarToQueue(new Car("Car2", 2, 3));
-        gate2.addCarToQueue(new Car("Car3", 1, 4));
-        gate2.addCarToQueue(new Car("Car4", 3, 2));
+        // Create a single gate (thread) with the file path
+        Gate gate = new Gate(parkingLot, sharedQueue, "input.txt");
 
-        // Start the gates (threads)
-        gate1.start();
-        gate2.start();
-        gate3.start();
+        // Start the gate (thread)
+        gate.start();
 
-        try {
-            // Wait for all gates to finish processing
-            gate1.join();
-            gate2.join();
-
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        // Process the shared queue
+        new Thread(() -> {
+            while (true) {
+                synchronized (sharedQueue) {
+                    while (sharedQueue.isEmpty()) {
+                        try {
+                            sharedQueue.wait();
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                    }
+                    Car car = sharedQueue.poll();
+                    if (car != null) {
+                        if (!parkingLot.isFull()) {
+                            parkingLot.parkCar(car);
+                        } else {
+                            System.out.println("Parking full, " + car.getName() + " from Gate " + car.getGateNumber() + " can't park yet.");
+                        }
+                    }
+                }
+            }
+        }).start();
     }
 }
-

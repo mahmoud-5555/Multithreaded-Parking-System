@@ -1,5 +1,3 @@
-package src;
-
 public class Parking {
     private int numberOfSlots;
     private ParkingSlot[] slots;
@@ -25,16 +23,15 @@ public class Parking {
         for (ParkingSlot slot : slots) {
             if (slot.isEmpty()) {
                 slot.parkCar(car);
-                return;
-            }
-        }
-    }
-
-    public synchronized void removeCar(Car car) {
-        for (ParkingSlot slot : slots) {
-            if (slot.getCar() != null && slot.getCar().getName().equals(car.getName())) {
-                slot.removeCar();
-                return;
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(car.getParkingTime() * 1000);  // Simulate parking time
+                        slot.removeCar();
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }).start();
+                break;
             }
         }
     }

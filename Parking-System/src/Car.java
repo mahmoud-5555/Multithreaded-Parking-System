@@ -4,12 +4,14 @@ public class Car implements Comparable<Car> {
     private String name;
     private int arrivedAt;
     private int parkingTime;
+    private int gateNumber;  // Add gate number
 
     // Constructor
-    public Car(String name, int arrivedAt, int parkingTime) {
+    public Car(String name, int arrivedAt, int parkingTime, int gateNumber) {
         this.name = name;
         this.arrivedAt = arrivedAt;
         this.parkingTime = parkingTime;
+        this.gateNumber = gateNumber;
     }
 
     public String getName() {
@@ -24,12 +26,16 @@ public class Car implements Comparable<Car> {
         return parkingTime;
     }
 
+    public int getGateNumber() {
+        return gateNumber;
+    }
+
     @Override
     public int compareTo(Car car) {
         return Integer.compare(this.arrivedAt, car.getArrivedAt());  // Priority by arrival time
     }
 
     public void printCar() {
-        System.out.println("src.Car name: " + name + " arrived at: " + arrivedAt + " parking time: " + parkingTime);
+        System.out.println("Car name: " + name + " arrived at: " + arrivedAt + " parking time: " + parkingTime + " from gate: " + gateNumber);
     }
 }
